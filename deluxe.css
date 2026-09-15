@@ -153,16 +153,71 @@
 .pause {
   margin: 100px 3% 0;
   border-radius: 48px 140px 48px 48px;
-  padding: 105px 12%;
+  padding: 105px 8% 20px;
   color: var(--cream);
   background: linear-gradient(90deg, #102f2259, #102f2210), url('assets/botanical-atmosphere.webp') center / cover;
   box-shadow: inset 0 1px #ffffff25, var(--warm-shadow);
+  overflow: visible;
 }
 .pause::before,.pause::after { display: none; }
 .pause > * { position: relative; z-index: 1; }
 .pause .eyebrow { color: #d5c299; }
-.pause > p:not(.eyebrow) { font-size: 16px; }
+.pause-copy { position: relative; z-index: 3; max-width: 860px; margin: 0 auto; }
+.pause-copy > p:not(.eyebrow) { margin: 25px 0 30px; color: #e0e4d7; font-size: 16px; }
 .pause h2 { text-shadow: 0 2px 16px #13291ce0; }
+.ritual-stage {
+  position: relative;
+  z-index: 4;
+  width: min(900px, 78vw);
+  height: 420px;
+  margin: 34px auto -150px;
+  pointer-events: none;
+}
+.ritual-stage img {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 27px 24px #061a106b);
+}
+.smoke-plume {
+  position: absolute;
+  z-index: 5;
+  top: -388px;
+  left: calc(66.7% - 160px);
+  width: 320px;
+  height: 420px;
+  overflow: visible;
+  mix-blend-mode: screen;
+}
+.smoke-halo,.smoke-core,.smoke-wisp {
+  fill: none;
+  stroke: url(#smoke-gradient);
+  stroke-linecap: round;
+}
+.smoke-halo { stroke-width: 52; opacity: .19; }
+.smoke-core { stroke-width: 13; opacity: .6; }
+.smoke-wisp { stroke-width: 31; opacity: .18; }
+.smoke-drift { transform-box: fill-box; transform-origin: 50% 100%; }
+.smoke-drift-a { animation: smoke-sway 7.5s ease-in-out infinite alternate; }
+.smoke-drift-b { animation: smoke-sway-alt 9s ease-in-out infinite alternate; }
+.ember-haze { fill: #e79b62; opacity: .72; filter: blur(4px); animation: ember-breathe 2.8s ease-in-out infinite; }
+@keyframes smoke-sway {
+  0% { transform: translateX(-7px) scaleX(.96); opacity: .72; }
+  45% { transform: translateX(8px) scaleX(1.04); opacity: 1; }
+  100% { transform: translateX(-3px) scaleX(.98); opacity: .78; }
+}
+@keyframes smoke-sway-alt {
+  0% { transform: translate(-8px, 3px) rotate(-1.4deg); opacity: .48; }
+  100% { transform: translate(10px, -5px) rotate(1.8deg); opacity: .86; }
+}
+@keyframes ember-breathe {
+  0%,100% { transform: scale(.72); opacity: .38; }
+  50% { transform: scale(1.35); opacity: .82; }
+}
 .pause .button.light,
 footer .button.light {
   background: linear-gradient(145deg, #f7e5c8 0, #efd8b2 48%, #d5b681 100%);
@@ -265,10 +320,17 @@ dialog { border-radius: 30px; border: 1px solid #fff5; box-shadow: 0 45px 120px 
   .orb-plus { width: 28px; height: 28px; font-size: 20px; }
   .style-card h3 { font-size: 20px; margin-top: 18px; line-height: 1.2; }
   .style-card p { font-size: 9px; letter-spacing: .6px; line-height: 1.5; }
-  .pause { margin: 65px 12px 0; padding: 65px 24px; border-radius: 30px 75px 30px 30px; background-position: 55% center; }
+  .pause { margin: 65px 12px 0; padding: 65px 22px 20px; border-radius: 30px 75px 30px 30px; background-position: 55% center; }
+  .pause-copy { max-width: 330px; }
   .pause h2 { font-size: 36px; }
   .pause .eyebrow { font-size: 9px; letter-spacing: 1.4px; }
-  .pause > p:not(.eyebrow) { font-size: 14px; }
+  .pause-copy > p:not(.eyebrow) { font-size: 14px; }
+  .ritual-stage { width: calc(100vw - 46px); height: 220px; margin: 46px auto -88px; }
+  .ritual-stage img { bottom: 0; }
+  .smoke-plume { top: -298px; left: calc(66.7% - 110px); width: 220px; height: 310px; }
+  .smoke-halo { stroke-width: 42; opacity: .15; }
+  .smoke-core { stroke-width: 9; opacity: .47; }
+  .smoke-wisp { stroke-width: 25; opacity: .15; }
   .schedules { padding: 70px 7% 60px; }
   .schedule-grid { gap: 20px; }
   .schedule { padding: 30px 25px 25px; border-radius: 26px; }
@@ -300,4 +362,5 @@ dialog { border-radius: 30px; border: 1px solid #fff5; box-shadow: 0 45px 120px 
 }
 @media (prefers-reduced-motion: reduce) {
   .style-card:hover .style-orb,.style-card:focus-visible .style-orb,.schedule:hover,.schedule:focus-within { transform: none; }
+  .smoke-core,.smoke-wisp,.smoke-drift-a,.smoke-drift-b,.ember-haze { animation: none; }
 }
