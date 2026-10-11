@@ -19,12 +19,12 @@ const icons = {
 const svg = name => `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 const styles = [
  {name:'Yoga con pelota',tag:'EQUILIBRIO · ESTABILIDAD',icon:'ball',image:'assets/style-ball-v1.jpg',crop:'crop-cover',text:'Explora el equilibrio y la coordinación con el apoyo de una pelota. Una forma dinámica de descubrir cómo se mueve tu cuerpo y construir confianza en cada postura.'},
- {name:'Yoga en telas',tag:'LIGEREZA · CONFIANZA',icon:'silks',image:'assets/yoga-scenes.jpg',crop:'crop-silks',text:'Descubre nuevas formas de moverte con el apoyo de telas suspendidas. Una práctica para explorar el espacio, trabajar la confianza y avanzar paso a paso con acompañamiento.'},
- {name:'Yoga en banco',tag:'FUERZA · NUEVAS PERSPECTIVAS',icon:'bench',image:'assets/inversion.jpg',crop:'crop-bench',text:'El banco es un apoyo para explorar nuevas posturas e inversiones de manera progresiva. Cada movimiento se adapta a tu experiencia y se realiza con la orientación del estudio.'},
+ {name:'Yoga en telas',tag:'LIGEREZA · CONFIANZA',icon:'silks',image:'assets/hero-silks-v2.jpg',crop:'crop-cover',text:'Descubre nuevas formas de moverte con el apoyo de telas suspendidas. Una práctica para explorar el espacio, trabajar la confianza y avanzar paso a paso con acompañamiento.'},
+ {name:'Yoga en banco',tag:'FUERZA · NUEVAS PERSPECTIVAS',icon:'bench',image:'assets/hero-bench-v2.jpg',crop:'crop-cover',text:'El banco es un apoyo para explorar nuevas posturas e inversiones de manera progresiva. Cada movimiento se adapta a tu experiencia y se realiza con la orientación del estudio.'},
  {name:'Yoga en silla',tag:'APOYO · MOVILIDAD',icon:'chair',image:'assets/style-chair-v1.jpg',crop:'crop-cover',text:'La silla abre otras posibilidades para tu práctica. Explora posturas, movilidad y equilibrio con un punto de apoyo que te permite concentrarte en tu propio proceso.'},
  {name:'Yoga con ballena',tag:'APERTURA · EXPLORACIÓN',icon:'whale',image:'assets/style-whale-v1.jpg',crop:'crop-cover',text:'Explora el movimiento con un soporte curvo, también conocido como ballena o whale bench. Consulta con el estudio cómo se incorpora este elemento a las clases.'},
  {name:'Yoga con aro',tag:'AIRE · EXPRESIÓN',icon:'hoop',image:'assets/style-hoop-v1.jpg',crop:'crop-cover',text:'Un aro suspendido invita a explorar fuerza, coordinación y expresión corporal. Descubre esta práctica y pregunta qué clase es la adecuada para empezar.'},
- {name:'Yoga a piso',tag:'RAÍZ · CONEXIÓN',icon:'floor',image:'assets/yoga-scenes.jpg',crop:'crop-floor',text:'Vuelve a la base: tu cuerpo, tu respiración y el contacto con el suelo. Construye una práctica que conecte movimiento, atención y progreso personal.'},
+ {name:'Yoga a piso',tag:'RAÍZ · CONEXIÓN',icon:'floor',image:'assets/style-floor-v2.jpg',crop:'crop-cover',text:'Vuelve a la base: tu cuerpo, tu respiración y el contacto con el suelo. Construye una práctica que conecte movimiento, atención y progreso personal.'},
  {name:'Yoga en pareja',tag:'ENCUENTRO · COMUNIDAD',icon:'couple',image:'assets/style-couple-v1.jpg',crop:'crop-cover',text:'Comparte la práctica, encuentra apoyo y construye confianza a través del movimiento en compañía. Una invitación a escuchar, colaborar y crecer juntos.'}
 ];
 const grid = document.querySelector('#style-grid');
@@ -51,8 +51,12 @@ const menu = document.querySelector('.menu');
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');document.querySelector('#navigation').classList.toggle('open',open);});
 document.querySelectorAll('#navigation a').forEach(a=>a.addEventListener('click',()=>{menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Abrir menú');document.querySelector('#navigation').classList.remove('open');}));
 let photo=0;
-const galleryPhotos=[{cls:'group',caption:'El camino se disfruta en compañía.',label:'EL PODER DE COMPARTIR'},{cls:'silks',caption:'Una nueva forma de descubrirte.',label:'EXPLORA TU MOVIMIENTO'},{cls:'meditation',caption:'Un momento para volver a ti.',label:'HAZ ESPACIO PARA TI'}];
-document.querySelectorAll('[data-gallery]').forEach(button=>button.addEventListener('click',()=>{photo=(photo+Number(button.dataset.gallery)+galleryPhotos.length)%galleryPhotos.length;const item=galleryPhotos[photo];document.querySelector('.gallery-photo').className=`gallery-photo scene ${item.cls}`;document.querySelector('.gallery-photo').setAttribute('aria-label',`Imagen conceptual: ${item.caption}`);document.querySelector('.gallery-caption p').textContent=item.caption;document.querySelector('.gallery-caption .eyebrow').textContent=item.label;document.querySelector('.gallery-count').textContent=`0${photo+1} / 03`;}));
+const galleryPhotos=[
+ {image:'assets/about-community-v2.jpg',position:'center',caption:'El camino se disfruta en compañía.',label:'EL PODER DE COMPARTIR'},
+ {image:'assets/hero-silks-v2.jpg',position:'center 42%',caption:'Una nueva forma de descubrirte.',label:'EXPLORA TU MOVIMIENTO'},
+ {image:'assets/hero-meditation-v2.jpg',position:'center 54%',caption:'Un momento para volver a ti.',label:'HAZ ESPACIO PARA TI'}
+];
+document.querySelectorAll('[data-gallery]').forEach(button=>button.addEventListener('click',()=>{photo=(photo+Number(button.dataset.gallery)+galleryPhotos.length)%galleryPhotos.length;const item=galleryPhotos[photo];const gallery=document.querySelector('.gallery-photo');gallery.className='gallery-photo';gallery.style.backgroundImage=`url('${item.image}')`;gallery.style.backgroundPosition=item.position;gallery.setAttribute('aria-label',`Imagen conceptual: ${item.caption}`);document.querySelector('.gallery-caption p').textContent=item.caption;document.querySelector('.gallery-caption .eyebrow').textContent=item.label;document.querySelector('.gallery-count').textContent=`0${photo+1} / 03`;}));
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const journey = document.querySelector('.journey');
@@ -78,10 +82,9 @@ function renderJourney(){
  const fades=[1-clamp((step-.65)/.35),clamp((step-.65)/.35)*(1-clamp((step-1.75)/.3)),clamp((step-1.75)/.3)*(1-clamp((step-2.8)/.25)),clamp((step-2.8)/.25)*(1-clamp((step-3.25)/.35)),clamp((step-3.25)/.35)];
  layers.forEach((layer,i)=>{layer.style.opacity=fades[i];layer.style.transform=`scale(${1.035+(1-fades[i])*.025})`;});
  document.querySelector('.hero-backdrop').style.transform=`scale(${1.02+progress*.08})`;
- const bench=layers[2];const frame=Math.min(2,Math.floor(clamp((step-2)/.65)*3));bench.style.backgroundPosition=`${frame*50}% center`;
  document.querySelector('.hero-progress').style.width=`${progress*100}%`;
 }
 const requestRender=()=>{if(!queued){queued=true;requestAnimationFrame(renderJourney);}};
 window.addEventListener('scroll',requestRender,{passive:true});window.addEventListener('resize',requestRender);reduced.addEventListener('change',requestRender);
-chapterButtons.forEach(button=>button.addEventListener('click',()=>{const p=Number(button.dataset.chapter)/3.8+.015;window.scrollTo({top:journey.offsetTop+p*(journey.offsetHeight-hero.offsetHeight),behavior:reduced.matches?'instant':'smooth'});}));
+chapterButtons.forEach(button=>button.addEventListener('click',()=>{const target=Number(button.dataset.chapter);const p=target===3?.93:target/3.8+.015;window.scrollTo({top:journey.offsetTop+p*(journey.offsetHeight-hero.offsetHeight),behavior:reduced.matches?'instant':'smooth'});}));
 renderJourney();
