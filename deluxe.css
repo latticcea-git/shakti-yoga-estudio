@@ -160,16 +160,26 @@
   overflow: visible;
 }
 .pause::before,.pause::after { display: none; }
+.pause-ritual::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgba(248,245,236,.16), rgba(239,216,178,.09));
+  pointer-events: none;
+}
 .pause > * { position: relative; z-index: 1; }
 .pause .eyebrow { color: #d5c299; }
-.pause-copy { position: relative; z-index: 3; max-width: 860px; margin: 0 auto; }
+.pause-copy { position: relative; z-index: 4; max-width: 860px; margin: 0 auto; }
 .pause-copy > p:not(.eyebrow) { margin: 25px 0 30px; color: #e0e4d7; font-size: 16px; }
 .pause h2 { text-shadow: 0 2px 16px #13291ce0; }
 .ritual-stage {
   position: relative;
-  z-index: 4;
+  z-index: 2;
   width: min(900px, 78vw);
-  height: 420px;
+  aspect-ratio: 9 / 5;
   margin: 34px auto -150px;
   pointer-events: none;
 }
@@ -181,42 +191,36 @@
   display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 27px 24px #061a106b);
+  filter: drop-shadow(0 1px 0 #f9eed75c) drop-shadow(0 27px 24px #061a106b);
 }
 .smoke-plume {
   position: absolute;
-  z-index: 5;
-  top: -388px;
-  left: calc(66.7% - 160px);
-  width: 320px;
-  height: 420px;
+  z-index: 1;
+  left: 67.1%;
+  bottom: calc(93.6% - 2px);
+  width: clamp(220px, 21vw, 250px);
+  height: auto;
+  aspect-ratio: 280 / 520;
+  transform: translateX(-50%);
   overflow: visible;
   mix-blend-mode: screen;
 }
-.smoke-halo,.smoke-core,.smoke-wisp {
+.smoke-halo,.smoke-core,.smoke-flow {
   fill: none;
   stroke: url(#smoke-gradient);
   stroke-linecap: round;
 }
-.smoke-halo { stroke-width: 52; opacity: .19; }
-.smoke-core { stroke-width: 13; opacity: .6; }
-.smoke-wisp { stroke-width: 31; opacity: .18; }
-.smoke-drift { transform-box: fill-box; transform-origin: 50% 100%; }
-.smoke-drift-a { animation: smoke-sway 7.5s ease-in-out infinite alternate; }
-.smoke-drift-b { animation: smoke-sway-alt 9s ease-in-out infinite alternate; }
-.ember-haze { fill: #e79b62; opacity: .72; filter: blur(4px); animation: ember-breathe 2.8s ease-in-out infinite; }
-@keyframes smoke-sway {
-  0% { transform: translateX(-7px) scaleX(.96); opacity: .72; }
-  45% { transform: translateX(8px) scaleX(1.04); opacity: 1; }
-  100% { transform: translateX(-3px) scaleX(.98); opacity: .78; }
+.smoke-halo { stroke-width: 44; opacity: .16; }
+.smoke-core { stroke-width: 11; opacity: .48; }
+.smoke-flow {
+  stroke-width: 8;
+  opacity: .48;
+  stroke-dasharray: 118 42;
+  animation: smoke-rise 6.4s linear infinite;
 }
-@keyframes smoke-sway-alt {
-  0% { transform: translate(-8px, 3px) rotate(-1.4deg); opacity: .48; }
-  100% { transform: translate(10px, -5px) rotate(1.8deg); opacity: .86; }
-}
-@keyframes ember-breathe {
-  0%,100% { transform: scale(.72); opacity: .38; }
-  50% { transform: scale(1.35); opacity: .82; }
+@keyframes smoke-rise {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -640; }
 }
 .pause .button.light,
 footer .button.light {
@@ -224,6 +228,7 @@ footer .button.light {
   border: 1px solid #f4dfbba6;
   box-shadow: inset 0 2px 2px #fff8, 0 8px 20px #061b2466;
 }
+.pause .button.light { justify-content: center; min-width: 184px; }
 .pause .button.light:hover,footer .button.light:hover { background: linear-gradient(145deg, #fff0d6, #e9cda1); }
 
 /* Raised, rounded schedule cards with a distinct evening surface. */
@@ -325,12 +330,12 @@ dialog { border-radius: 30px; border: 1px solid #fff5; box-shadow: 0 45px 120px 
   .pause h2 { font-size: 36px; }
   .pause .eyebrow { font-size: 9px; letter-spacing: 1.4px; }
   .pause-copy > p:not(.eyebrow) { font-size: 14px; }
-  .ritual-stage { width: calc(100vw - 46px); height: 220px; margin: 46px auto -88px; }
+  .ritual-stage { width: calc(100vw - 46px); height: auto; margin: 46px auto -88px; }
   .ritual-stage img { bottom: 0; }
-  .smoke-plume { top: -298px; left: calc(66.7% - 110px); width: 220px; height: 310px; }
-  .smoke-halo { stroke-width: 42; opacity: .15; }
-  .smoke-core { stroke-width: 9; opacity: .47; }
-  .smoke-wisp { stroke-width: 25; opacity: .15; }
+  .smoke-plume { left: 67.1%; bottom: calc(93.6% - 1px); width: 220px; height: auto; }
+  .smoke-halo { stroke-width: 38; opacity: .15; }
+  .smoke-core { stroke-width: 9; opacity: .44; }
+  .smoke-flow { stroke-width: 7; opacity: .46; }
   .schedules { padding: 70px 7% 60px; }
   .schedule-grid { gap: 20px; }
   .schedule { padding: 30px 25px 25px; border-radius: 26px; }
@@ -362,5 +367,119 @@ dialog { border-radius: 30px; border: 1px solid #fff5; box-shadow: 0 45px 120px 
 }
 @media (prefers-reduced-motion: reduce) {
   .style-card:hover .style-orb,.style-card:focus-visible .style-orb,.schedule:hover,.schedule:focus-within { transform: none; }
-  .smoke-core,.smoke-wisp,.smoke-drift-a,.smoke-drift-b,.ember-haze { animation: none; }
+  .smoke-flow { animation: none; }
+}
+
+/* v5 · The Shakti threshold: stable cinematic portal and photographic practices. */
+.hero { background: #d9cfb8; }
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  background: url('assets/garden.jpg') center / cover no-repeat;
+  transform: scale(1.02);
+  transform-origin: center;
+  transition: transform .15s linear;
+  will-change: transform;
+}
+.hero-shade {
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(248,245,236,.96) 0%, rgba(248,245,236,.86) 35%, rgba(248,245,236,.24) 64%, rgba(20,48,33,.18) 100%),
+    linear-gradient(0deg, rgba(248,245,236,.88), transparent 28%);
+}
+.hero-portal {
+  position: absolute;
+  z-index: 2;
+  top: 15%;
+  right: 7%;
+  width: min(38vw, 520px);
+  height: min(70vh, 700px);
+  min-height: 500px;
+  overflow: hidden;
+  border: 8px solid rgba(248,245,236,.78);
+  border-radius: 46% 46% 28px 28px;
+  background: #1d3f2f;
+  box-shadow: inset 0 0 0 1px rgba(40,71,45,.18), 0 36px 80px rgba(30,51,37,.28);
+}
+.portal-scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-repeat: no-repeat;
+  transform: scale(1.035);
+  transition: opacity .48s ease, transform .8s cubic-bezier(.2,.75,.25,1);
+  will-change: opacity, transform;
+}
+.portal-threshold { opacity: 1; background: url('assets/garden.jpg') 72% center / cover no-repeat; }
+.portal-silks { background-image: url('assets/yoga-scenes.jpg'); background-size: 200% 200%; background-position: 0 0; }
+.portal-bench { background-image: url('assets/inversion.jpg'); background-size: 300% 100%; background-position: 0 center; }
+.portal-meditation { background-image: url('assets/yoga-scenes.jpg'); background-size: 200% 200%; background-position: 0 100%; }
+.portal-group { background-image: url('assets/yoga-scenes.jpg'); background-size: 200% 200%; background-position: 100% 100%; }
+.portal-sheen { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(145deg, rgba(255,255,255,.2), transparent 34%, transparent 70%, rgba(20,45,31,.22)); }
+.portal-meta { position: absolute; z-index: 4; left: 22px; right: 22px; bottom: 19px; display: flex; justify-content: space-between; gap: 18px; color: var(--cream); font-size: 9px; letter-spacing: 1.8px; text-shadow: 0 2px 9px #10271d; }
+.hero-copy { z-index: 4; top: 25%; max-width: 690px; }
+.hero-copy h1 { font-size: clamp(62px, 6vw, 96px); }
+.hero-copy .button { box-shadow: 0 15px 35px rgba(25,52,35,.2); }
+.hero-bottom { z-index: 5; }
+
+.style-orb,
+.style-card:nth-child(3n+2) .style-orb,
+.style-card:nth-child(3n) .style-orb {
+  isolation: isolate;
+  overflow: hidden;
+  background: #d6ccb7;
+  color: var(--green);
+}
+.style-orb::before { z-index: 2; inset: 9%; border-color: rgba(255,255,255,.46); box-shadow: inset 0 0 0 1px rgba(40,71,45,.12); }
+.style-photo { position: absolute; inset: 0; z-index: 0; background-image: var(--style-image); background-size: cover; background-position: center; transition: transform .7s cubic-bezier(.2,.75,.25,1), filter .45s ease; }
+.crop-silks .style-photo,.dialog-photo.crop-silks { background-size: 200% 200%; background-position: 0 0; }
+.crop-bench .style-photo,.dialog-photo.crop-bench { background-size: 300% 100%; background-position: 100% center; }
+.crop-floor .style-photo,.dialog-photo.crop-floor { background-size: 200% 200%; background-position: 0 100%; }
+.style-icon { position: relative; z-index: 3; width: 42%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; color: var(--green); background: rgba(248,245,236,.9); box-shadow: 0 14px 30px rgba(10,32,22,.25); opacity: 0; transform: scale(.72); transition: opacity .32s ease, transform .42s cubic-bezier(.2,.9,.25,1); backdrop-filter: blur(8px); }
+.style-icon svg { width: 62%; height: 62%; filter: none; stroke-width: 1.45; }
+.style-card:hover .style-photo,.style-card:focus-visible .style-photo { transform: scale(1.07); filter: saturate(.78) brightness(.82); }
+.style-card:hover .style-icon,.style-card:focus-visible .style-icon { opacity: 1; transform: scale(1); }
+.style-card:hover .style-orb,.style-card:focus-visible .style-orb { transform: translateY(-7px); }
+.orb-plus { z-index: 4; }
+
+dialog { max-width: 940px; }
+dialog[open] { grid-template-columns: 48% 52%; }
+.dialog-visual { position: relative; min-height: 570px; padding: 0; overflow: hidden; }
+.dialog-photo { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.dialog-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 54%, rgba(18,48,32,.68)); pointer-events: none; }
+.dialog-symbol { position: absolute; z-index: 2; left: 28px; bottom: 28px; width: 78px; height: 78px; display: grid; place-items: center; border-radius: 50%; color: var(--green); background: rgba(248,245,236,.9); backdrop-filter: blur(8px); box-shadow: 0 14px 30px rgba(10,32,22,.24); }
+.dialog-symbol svg { width: 54%; height: 54%; filter: none; stroke-width: 1.45; }
+
+.pocket { overflow: hidden; min-height: 280px; padding-right: 32%; }
+.pocket::before { display: none; }
+.pocket > div,.pocket .button { position: relative; z-index: 3; }
+.pocket .button { flex: 0 0 auto; justify-content: center; min-width: 230px; border-color: rgba(255,255,255,.18); }
+.pocket-coins { position: absolute; z-index: 1; right: 1%; bottom: -12%; width: min(31%, 360px); height: auto; pointer-events: none; filter: drop-shadow(0 24px 22px rgba(75,52,20,.2)); }
+
+@media (max-width: 1100px) {
+  .hero-portal { right: 4%; width: min(42vw, 470px); }
+  .hero-copy { left: 6%; max-width: 600px; }
+  .hero-copy h1 { font-size: clamp(58px, 6.6vw, 78px); }
+  .pocket { padding-right: 31%; }
+  .pocket .button { min-width: 200px; }
+}
+@media (max-width: 700px) {
+  .hero-backdrop { background-position: 64% center; }
+  .hero-shade { background: linear-gradient(180deg, rgba(248,245,236,.82) 0%, rgba(248,245,236,.66) 42%, rgba(20,49,33,.35) 100%); }
+  .hero-portal { top: 12%; right: -8%; width: 76vw; height: 70vh; min-height: 500px; border-width: 5px; border-radius: 48% 48% 24px 24px; opacity: .92; }
+  .hero-copy { top: 22%; left: 7%; right: 10%; max-width: 340px; text-shadow: 0 1px 15px rgba(248,245,236,.9); }
+  .hero-copy h1 { font-size: clamp(50px, 14vw, 66px); }
+  .hero-copy .button { text-shadow: none; }
+  .portal-meta { display: none; }
+  .style-icon { width: 50%; opacity: .92; transform: scale(1); }
+  .style-photo { filter: saturate(.82) brightness(.78); }
+  dialog[open] { grid-template-columns: 1fr; }
+  .dialog-visual { height: 260px; min-height: 260px; }
+  .dialog-symbol { left: 18px; bottom: 18px; width: 62px; height: 62px; }
+  .pocket { min-height: 360px; display: block; padding: 36px 28px 170px; }
+  .pocket .button { min-width: 0; width: fit-content; max-width: 100%; margin-top: 24px; }
+  .pocket-coins { width: 220px; right: -10px; bottom: -30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop,.portal-scene,.style-photo,.style-icon { transition: none; will-change: auto; }
 }
